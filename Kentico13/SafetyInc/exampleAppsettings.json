@@ -1,0 +1,21 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    },
+    "KenticoEventLog": {
+      "LogLevel": {
+        "Default": "Error",
+        "Microsoft.AspNetCore.Server.Kestrel": "None"
+      }
+    }
+  },
+  "AllowedHosts": "*",
+  "CMSHashStringSalt": "2efe4726-ff73-4711-bc2d-5d208723e5fe",
+  "ConnectionStrings": {
+    "CMSConnectionString": "Data Source=ExampleSQLServer;Initial Catalog=ExampleCatalogue;Integrated Security=False;Persist Security Info=False;User ID=ExampleUser;Password=ExamplePassword;Connect Timeout=60;Encrypt=False;Current Language=English;"
+  },
+  "CMSCIRepositoryPath": "C:\\Example\\path\\to\\CMSCSRepository"
+}
