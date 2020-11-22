@@ -13,6 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\Location\" />
+    <Folder Include="Models\SafetyDiscussion\" />
     <Folder Include="Views\Account\" />
     <Folder Include="Views\SafetyDiscussion\" />
     <Folder Include="wwwroot\lib\" />

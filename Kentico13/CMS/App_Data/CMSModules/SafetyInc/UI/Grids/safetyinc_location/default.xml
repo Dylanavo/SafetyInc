@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<grid>
+  <actions>
+    <action name="edit" caption="$General.Edit$" fonticonclass="icon-edit" fonticonstyle="allow" />
+    <action name="#delete" caption="$General.Delete$" fonticonclass="icon-bin" fonticonstyle="critical" confirmation="$General.ConfirmDelete$" />
+  </actions>
+  <columns>
+    <column source="LocationDisplayName" caption="Name" wrap="false">
+      <filter type="text"></filter>
+    </column>
+    <column source="LocationCodeName" caption="Code name" wrap="false">
+      <filter type="text"></filter>
+    </column>
+    <column source="LocationAddress" caption="Address" wrap="true" width="100%">
+      <filter type="text"></filter>
+    </column>
+  </columns>
+  <options>
+    <key name="DisplayFilter" value="true" />
+    <key name="FilterLimit" value="2" />
+  </options>
+</grid>

@@ -547,6 +547,8 @@
     <Content Include="App_Data\CMSModules\OnlineMarketing\UI\Grids\CMS_ObjectWorkflowTrigger\default.xml" />
     <Content Include="App_Data\CMSModules\Personas\UI\Grids\OM_Contact\default.xml" />
     <Content Include="App_Data\CMSModules\Personas\UI\Grids\Personas_Persona\default.xml" />
+    <Content Include="App_Data\CMSModules\SafetyInc\UI\Grids\safetyinc_location\default.xml" />
+    <Content Include="App_Data\CMSModules\SafetyInc\UI\Grids\safetyinc_safetydiscussion\default.xml" />
     <Content Include="App_Data\CMSModules\SharePoint\UI\Grids\SharePoint_SharePointFile\default.xml" />
     <Content Include="App_Data\CMSModules\SharePoint\UI\Grids\SharePoint_SharePointConnection\default.xml" />
     <Content Include="App_Data\CMSModules\SharePoint\UI\Grids\SharePoint_SharePointLibrary\default.xml" />
@@ -14303,7 +14305,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CMSScripts\Custom\" />
-    <Folder Include="CMSScripts\WebComponents\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="CMSScripts\WebComponents\app-globals-8931cc91.js" />
@@ -14323,6 +14324,12 @@
     <Content Include="CMSScripts\WebComponents\kentico-abtest-variant-listing_35.system.entry.js" />
     <Content Include="CMSScripts\WebComponents\shadow-css-14c5e2cb.js" />
     <Content Include="CMSScripts\WebComponents\shadow-css-8a020e34.system.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SI.SafetyDiscussion\SI.SafetyDiscussion.csproj">
+      <Project>{fc06056c-0fe3-4593-9ae3-74212f40dc8e}</Project>
+      <Name>SI.SafetyDiscussion</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

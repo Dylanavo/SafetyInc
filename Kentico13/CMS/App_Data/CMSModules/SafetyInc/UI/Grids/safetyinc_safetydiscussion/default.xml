@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<grid>
+  <actions>
+    <action name="edit" caption="$General.Edit$" fonticonclass="icon-edit" fonticonstyle="allow" />
+    <action name="#delete" caption="$General.Delete$" fonticonclass="icon-bin" fonticonstyle="critical" confirmation="$General.ConfirmDelete$" />
+  </actions>
+  <columns>
+    <column source="SafetyDiscussionCreatedBy" caption="Created by" wrap="false" externalsourcename="#transform: cms.user.fullname">
+      <filter type="text" format="{0} in (select UserID from CMS_User where FullName {1} {2})"></filter>
+    </column>
+    <column source="SafetyDiscussionObserver" caption="Observer" wrap="false" externalsourcename="#transform: cms.user.fullname">
+      <filter type="text" format="{0} in (select UserID from CMS_User where FullName {1} {2})"></filter>
+    </column>
+    <column source="SafetyDiscussionDate" caption="Date" wrap="false"></column>
+    <column source="SafetyDiscussionSubject" caption="Subject" wrap="false">
+      <filter type="text"></filter>
+    </column>
+    <column source="SafetyDiscussionColleagues" caption="Colleagues" wrap="true" width="100%" externalsourcename="#getColleagues">
+      <filter type="text" format="exists (select UserID from CMS_User where FullName {1} {2} and UserID in (select value from STRING_SPLIT({0}, '|')))"></filter>
+    </column>
+  </columns>
+  <options>
+    <key name="DisplayFilter" value="true" />
+    <key name="FilterLimit" value="2" />
+  </options>
+</grid>
