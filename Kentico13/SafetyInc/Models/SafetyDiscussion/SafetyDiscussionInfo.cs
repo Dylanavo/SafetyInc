@@ -26,7 +26,6 @@ namespace SafetyInc
         /// <summary>
         /// Type information.
         /// </summary>
-#warning "You will need to configure the type info."
         public static readonly ObjectTypeInfo TYPEINFO = new ObjectTypeInfo(typeof(SafetyDiscussionInfoProvider), OBJECT_TYPE, "SafetyInc.SafetyDiscussion", "SafetyDiscussionID", "SafetyDiscussionLastModified", "SafetyDiscussionGuid", null, null, null, null, null, null)
         {
             ModuleName = "SafetyInc",

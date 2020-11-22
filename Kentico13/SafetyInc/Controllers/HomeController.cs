@@ -28,7 +28,7 @@ namespace SafetyInc.Controllers
             this.attachmentUrlRetriever = attachmentUrlRetriever;
         }
 
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             var home = pageDataContextRetriever.Retrieve<Home>().Page;
             var viewModel = HomeIndexViewModel.GetViewModel(home, pageUrlRetriever, attachmentUrlRetriever);

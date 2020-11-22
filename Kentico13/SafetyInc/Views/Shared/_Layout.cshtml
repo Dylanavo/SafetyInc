@@ -12,6 +12,19 @@
 </head>
 <body>
     <div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <a asp-controller="SafetyDiscussion" asp-action="Index">@HtmlLocalizer["Manage discussions"]</a>
+            <form method="post" asp-controller="Account" asp-action="Logout">
+                <input type="submit" value="@HtmlLocalizer["Sign out"]" class="sign-out-button" />
+            </form>
+        }
+        else
+        {
+            <a asp-controller="Account" asp-action="Login">@HtmlLocalizer["Login"]</a>
+        }
+    </div>
+    <div>
         @RenderBody()
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -111,5 +111,15 @@ namespace SafetyInc.Controllers
 
             return View(model);
         }
+
+        // POST: Account/Logout
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Logout()
+        {
+            signInManager.SignOutAsync();
+            return Redirect(Url.Kentico().PageUrl("/Home"));
+        }
     }
 }

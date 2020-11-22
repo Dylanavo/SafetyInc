@@ -26,7 +26,6 @@ namespace SafetyInc
         /// <summary>
         /// Type information.
         /// </summary>
-#warning "You will need to configure the type info."
         public static readonly ObjectTypeInfo TYPEINFO = new ObjectTypeInfo(typeof(LocationInfoProvider), OBJECT_TYPE, "SafetyInc.Location", "LocationID", "LocationLastModified", "LocationGuid", "LocationCodeName", "LocationDisplayName", null, null, null, null)
         {
             ModuleName = "SafetyInc",

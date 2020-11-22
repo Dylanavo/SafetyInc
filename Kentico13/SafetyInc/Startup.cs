@@ -28,7 +28,7 @@ namespace SafetyInc
         /// The constraint ensures that broken URLs lead to a "404 page not found" page and are not handled by a controller dedicated to the component or 
         /// to a page handled by the content tree-based router (which would lead to an exception).
         /// </summary>
-        private const string CONSTRAINT_FOR_NON_ROUTER_PAGE_CONTROLLERS = "Account";
+        private const string CONSTRAINT_FOR_NON_ROUTER_PAGE_CONTROLLERS = "Account|SafetyDiscussion";
 
         // Application authentication cookie name
         private const string AUTHENTICATION_COOKIE_NAME = "identity.authentication";
@@ -74,7 +74,7 @@ namespace SafetyInc
             services.AddLocalization()
                     .AddControllersWithViews()
                     .AddViewLocalization()
-                    .AddDataAnnotationsLocalization(options => 
+                    .AddDataAnnotationsLocalization(options =>
                     {
                         options.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(typeof(SharedResources));
                     });
@@ -111,23 +111,15 @@ namespace SafetyInc
                 );
 
                 endpoints.MapControllerRoute(
-                   name: "default",
-                   pattern: $"{{culture}}/{{controller}}/{{action}}",
-                   constraints: new
-                   {
-                       culture = new SiteCultureConstraint { HideLanguagePrefixForDefaultCulture = true },
-                       controller = CONSTRAINT_FOR_NON_ROUTER_PAGE_CONTROLLERS
-                   }
-                );
-
-                endpoints.MapControllerRoute(
                     name: DEFAULT_WITHOUT_LANGUAGE_PREFIX_ROUTE_NAME,
-                    pattern: "{controller}/{action}",
+                    pattern: "{controller}/{action=Index}/{id?}",
                     constraints: new
                     {
                         controller = CONSTRAINT_FOR_NON_ROUTER_PAGE_CONTROLLERS
                     }
                 );
+
+
             });
         }
 
@@ -146,11 +138,11 @@ namespace SafetyInc
                 options.Password.RequireLowercase = false;
                 options.Password.RequiredUniqueChars = 0;
             })
-                    .AddApplicationDefaultTokenProviders()
-                    .AddUserStore<ApplicationUserStore<ApplicationUser>>()
-                    .AddRoleStore<ApplicationRoleStore<ApplicationRole>>()
-                    .AddUserManager<ApplicationUserManager<ApplicationUser>>()
-                    .AddSignInManager<SignInManager<ApplicationUser>>();
+            .AddApplicationDefaultTokenProviders()
+            .AddUserStore<ApplicationUserStore<ApplicationUser>>()
+            .AddRoleStore<ApplicationRoleStore<ApplicationRole>>()
+            .AddUserManager<ApplicationUserManager<ApplicationUser>>()
+            .AddSignInManager<SignInManager<ApplicationUser>>();
 
             services.AddAuthorization();
             services.AddAuthentication();
