@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using CMS.Membership;
+using CMS.Helpers;
 
 namespace SafetyInc.Controllers
 {
@@ -25,7 +26,7 @@ namespace SafetyInc.Controllers
             else
             {
                 //if this is a normal user with no priviledges then just show
-                //discussions where they are the creater or observer
+                //discussions where they are the creator or observer
                 safetyDiscs = SafetyDiscussionInfo.Provider.Get()
                     .WhereEquals(nameof(SafetyDiscussionInfo.SafetyDiscussionCreatedBy), userInfo.UserID)
                     .Or()
@@ -40,8 +41,15 @@ namespace SafetyInc.Controllers
         public ActionResult Details(int id)
         {
             var safetyDisc = GetDiscussionInfo(User, id);
-            var safetyDiscViewModel = SafetyDiscussionViewModel.GetViewModel(safetyDisc);
-            return View(safetyDiscViewModel);
+            var safetyDiscViewModel = SafetyDiscussionViewModel.GetViewModel(safetyDisc, true);
+            if(safetyDiscViewModel != null)
+            {
+                return View(safetyDiscViewModel);
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // GET: SafetyDiscussion/Create
@@ -53,65 +61,124 @@ namespace SafetyInc.Controllers
         // POST: SafetyDiscussion/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(SafetyDiscussionViewModel sdvm)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(sdvm);
+            }
+
             try
             {
-                // TODO: Add insert logic here
+                var userInfo = UserInfo.Provider.Get(User.Identity.Name);
 
+                //Technically we should also do validation on the user ids passed in to make
+                //sure they are all associated with users who have the appropriate role. We
+                //should also do some extra validation on date/location - and potentially
+                //do sanitization on Subject/Outcomes (although there are issues associated
+                //with allowing rich text input and then trying to clean out undesirable 
+                //elements - markdown would probably be a better option)
+                var newDiscussion = new SafetyDiscussionInfo
+                {
+                    SafetyDiscussionCreatedBy = userInfo.UserID,
+                    SafetyDiscussionObserver = sdvm.Observer,
+                    SafetyDiscussionDate = sdvm.Date,
+                    SafetyDiscussionLocation = sdvm.Location,
+                    SafetyDiscussionSubject = sdvm.Subject,
+                    SafetyDiscussionOutcomes = sdvm.Outcomes
+                };
+                if(sdvm.Colleagues != null && sdvm.Colleagues.Length > 0)
+                {
+                    newDiscussion.SafetyDiscussionColleagues = sdvm.Colleagues.Join("|");
+                }
+                newDiscussion.Insert();
+                
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(sdvm);
             }
         }
 
         // GET: SafetyDiscussion/Edit/5
         public ActionResult Edit(int id)
         {
-            var safetyDisc = SafetyDiscussionInfo.Provider.Get(id);
-            var safetyDiscViewModel = SafetyDiscussionViewModel.GetViewModel(safetyDisc);
-            return View(safetyDiscViewModel);
+            var safetyDisc = GetDiscussionInfo(User, id);
+            var safetyDiscViewModel = SafetyDiscussionViewModel.GetViewModel(safetyDisc, false);
+            if(safetyDiscViewModel != null)
+            {
+                return View(safetyDiscViewModel);
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: SafetyDiscussion/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, SafetyDiscussionViewModel sdvm)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(sdvm);
+            }
+
             try
             {
-                // TODO: Add update logic here
+                var safetyDisc = GetDiscussionInfo(User, id);
+                if(safetyDisc != null)
+                {
+                    safetyDisc.SafetyDiscussionObserver = sdvm.Observer;
+                    safetyDisc.SafetyDiscussionDate = sdvm.Date;
+                    safetyDisc.SafetyDiscussionLocation = sdvm.Location;
+                    safetyDisc.SafetyDiscussionSubject = sdvm.Subject;
+                    safetyDisc.SafetyDiscussionOutcomes = sdvm.Outcomes;
+                }
+                if (sdvm.Colleagues != null && sdvm.Colleagues.Length > 0)
+                {
+                    safetyDisc.SafetyDiscussionColleagues = sdvm.Colleagues.Join("|");
+                }
+                safetyDisc.Update();
 
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(sdvm);
             }
         }
 
         // GET: SafetyDiscussion/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var safetyDisc = GetDiscussionInfo(User, id);
+            var safetyDiscViewModel = SafetyDiscussionViewModel.GetViewModel(safetyDisc, true);
+            if(safetyDiscViewModel != null)
+            {
+                return View(safetyDiscViewModel);
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: SafetyDiscussion/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, SafetyDiscussionViewModel sdvm)
         {
-            try
+            //make sure they actually have access to this discussion
+            var discussion = GetDiscussionInfo(User, id);
+            if (discussion != null)
             {
-                // TODO: Add delete logic here
-                return RedirectToAction(nameof(Index));
+                discussion.Delete();
             }
-            catch
-            {
-                return View();
-            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         //gets a discussion for a user based on discussion id - only returns the object
@@ -122,7 +189,7 @@ namespace SafetyInc.Controllers
             if(userInfo != null)
             {
                 var discInfo = SafetyDiscussionInfo.Provider.Get(discId);
-                if(discInfo != null && (discInfo.SafetyDiscussionObserver == userInfo.UserID || discInfo.SafetyDiscussionCreatedBy == userInfo.UserID))
+                if(discInfo != null && (userInfo.CheckPrivilegeLevel(CMS.Base.UserPrivilegeLevelEnum.Editor) || discInfo.SafetyDiscussionObserver == userInfo.UserID || discInfo.SafetyDiscussionCreatedBy == userInfo.UserID))
                 {
                     return discInfo;
                 }

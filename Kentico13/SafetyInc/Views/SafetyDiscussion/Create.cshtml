@@ -13,29 +13,36 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="SafetyDiscussionID" class="control-label"></label>
-                <input asp-for="SafetyDiscussionID" class="form-control" />
-                <span asp-validation-for="SafetyDiscussionID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedBy" class="control-label"></label>
-                <input asp-for="CreatedBy" class="form-control" />
-                <span asp-validation-for="CreatedBy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Observer" class="control-label"></label>
-                <input asp-for="Observer" class="form-control" />
-                <span asp-validation-for="Observer" class="text-danger"></span>
+                <select asp-for="Observer" class="form-control">
+                    @foreach (var user in SafetyInc.Resources.SharedData.Users.GetUsers())
+                    {
+                        <option value="@user.Key">@user.Value</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Colleagues" class="control-label"></label>
+                <select asp-for="Colleagues" class="form-control" multiple>
+                    @foreach (var user in SafetyInc.Resources.SharedData.Users.GetUsers())
+                    {
+                        <option value="@user.Key">@user.Value</option>
+                    }
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
+                <input asp-for="Date" class="form-control" id="date-time-picker" />
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Location" class="control-label"></label>
-                <input asp-for="Location" class="form-control" />
-                <span asp-validation-for="Location" class="text-danger"></span>
+                <select asp-for="Location" class="form-control">
+                    @foreach (var location in SafetyInc.Resources.SharedData.Locations.GetLocations())
+                    {
+                        <option value="@location.Key">@location.Value</option>
+                    }
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Subject" class="control-label"></label>
@@ -44,7 +51,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Outcomes" class="control-label"></label>
-                <input asp-for="Outcomes" class="form-control" />
+                <textarea asp-for="Outcomes" class="form-control" id="rich-text-editor"></textarea>
                 <span asp-validation-for="Outcomes" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -60,4 +67,24 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //init select pickers
+            $('select').selectpicker();
+
+            //init datetime picker
+            flatpickr("#date-time-picker", {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i"
+            });
+
+            //init richtext editor
+            tinymce.init({
+                selector: '#rich-text-editor',
+                plugins: 'lists',
+                toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | numlist bullist'
+            });
+        });
+    </script>
 }

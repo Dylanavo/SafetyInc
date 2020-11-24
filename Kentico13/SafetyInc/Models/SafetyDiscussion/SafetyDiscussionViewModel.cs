@@ -3,74 +3,90 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using CMS.SiteProvider;
+using CMS.Helpers;
+using System.ComponentModel;
+using SafetyInc.Resources;
 
 namespace SafetyInc.Models
 {
     public class SafetyDiscussionViewModel
     {
         public int SafetyDiscussionID { get; set; }
-        public string CreatedBy { get; set; }
-        public string Observer { get; set; }
-        public List<string> Colleagues { get; set; }
+
+        [Required(ErrorMessage = "Please select an observer of the discussion")]
+        public int Observer { get; set; }
+        
+        [DisplayName("Observer")]
+        public string ObserverFullName { get; set; }
+        
+        [Required(ErrorMessage = "Please select colleagues involved in the discussion")]
+        public string[] Colleagues { get; set; }
+
+        [DisplayName("Colleagues")]
+        public string ColleagueNames { get; set; }
+
+        [Required(ErrorMessage = "Please select time of the discussion")]
         public DateTime Date { get; set; }
-        public string Location { get; set; }
+
+        [Required(ErrorMessage = "Please select location of the discussion")]
+        public int Location { get; set; }
+
+        [DisplayName("Location")]
+        public string LocationString { get; set; }
+
+        [Required(ErrorMessage = "Please enter the subject of the discussion")]
         public string Subject { get; set; }
+
+        [Required(ErrorMessage = "Please enter the outcomes of the discussion")]
         public string Outcomes { get; set; }
 
-        public static SafetyDiscussionViewModel GetViewModel(SafetyDiscussionInfo safetyDiscussionInfo)
+        public static SafetyDiscussionViewModel GetViewModel(SafetyDiscussionInfo safetyDiscussionInfo, bool resolveIDs)
         {
             if (safetyDiscussionInfo != null)
             {
-                //first create a new view model object and set all the variables
-                //that don't require mapping
                 var safetyDiscViewModel = new SafetyDiscussionViewModel
                 {
                     SafetyDiscussionID = safetyDiscussionInfo.SafetyDiscussionID,
                     Date = safetyDiscussionInfo.SafetyDiscussionDate,
                     Subject = safetyDiscussionInfo.SafetyDiscussionSubject,
-                    Outcomes = safetyDiscussionInfo.SafetyDiscussionOutcomes
+                    Outcomes = safetyDiscussionInfo.SafetyDiscussionOutcomes,
+                    Observer = safetyDiscussionInfo.SafetyDiscussionObserver,
+                    Colleagues = safetyDiscussionInfo.SafetyDiscussionColleagues.Split('|'),
+                    Location = safetyDiscussionInfo.SafetyDiscussionLocation
                 };
 
-                //get relevant data from IDs for rest of the variables
-                var createdUser = UserInfo.Provider.Get(safetyDiscussionInfo.SafetyDiscussionCreatedBy);
-                if(createdUser != null)
+                if (resolveIDs)
                 {
-                    safetyDiscViewModel.CreatedBy = createdUser.FullName;
-                }
+                    var observerUser = UserInfo.Provider.Get(safetyDiscussionInfo.SafetyDiscussionObserver);
+                    safetyDiscViewModel.ObserverFullName = observerUser != null ? observerUser.FullName : "";
 
-                var observerUser = UserInfo.Provider.Get(safetyDiscussionInfo.SafetyDiscussionObserver);
-                if(observerUser != null)
-                {
-                    safetyDiscViewModel.Observer = observerUser.FullName;
-                }
-
-                var colleaguesIDs = safetyDiscussionInfo.SafetyDiscussionColleagues;
-                var colleagueNames = new List<string>();
-                if (!string.IsNullOrEmpty(colleaguesIDs))
-                {
-                    var splitIDs = colleaguesIDs.Split('|');
-                    if (splitIDs != null && splitIDs.Length > 0)
+                    var colleaguesIDs = safetyDiscussionInfo.SafetyDiscussionColleagues;
+                    var colleagueNames = new List<string>();
+                    if (!string.IsNullOrEmpty(colleaguesIDs))
                     {
-                        
-                        foreach (var colleagueID in splitIDs)
+                        var splitIDs = colleaguesIDs.Split('|');
+                        if (splitIDs != null && splitIDs.Length > 0)
                         {
-                            if (int.TryParse(colleagueID, out int userId))
+                            foreach (var colleagueID in splitIDs)
                             {
-                                var userInfo = UserInfo.Provider.Get(userId);
-                                if (userInfo != null && !string.IsNullOrEmpty(userInfo.FullName))
+                                if (int.TryParse(colleagueID, out int userId))
                                 {
-                                    colleagueNames.Add(userInfo.FullName);
+                                    var userInfo = UserInfo.Provider.Get(userId);
+                                    if (userInfo != null && !string.IsNullOrEmpty(userInfo.FullName))
+                                    {
+                                        colleagueNames.Add(userInfo.FullName);
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                safetyDiscViewModel.Colleagues = colleagueNames;
+                    safetyDiscViewModel.ColleagueNames = colleagueNames.Count > 0 ? colleagueNames.Join(", ") : "";
 
-                var location = LocationInfo.Provider.Get(safetyDiscussionInfo.SafetyDiscussionLocation);
-                if(location != null)
-                {
-                    safetyDiscViewModel.Location = $"{location.LocationDisplayName} - {location.LocationAddress}";
+                    var location = LocationInfo.Provider.Get(safetyDiscussionInfo.SafetyDiscussionLocation);
+                    safetyDiscViewModel.LocationString = location != null ? $"{location.LocationDisplayName} - {location.LocationAddress}" : "";
                 }
 
                 return safetyDiscViewModel;
@@ -86,7 +102,7 @@ namespace SafetyInc.Models
             {
                 foreach (var safetyDiscInfo in safetyDiscussions)
                 {
-                    var safetyDiscViewModel = GetViewModel(safetyDiscInfo);
+                    var safetyDiscViewModel = GetViewModel(safetyDiscInfo, true);
                     if (safetyDiscViewModel != null)
                     {
                         safetyDiscussionViewModels.Add(safetyDiscViewModel);

@@ -58,7 +58,7 @@ namespace SafetyInc.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 //user is authenticated, no need to show the auth
-                return Redirect(Url.Kentico().PageUrl("/Home"));
+                return Redirect(Url.Kentico().PageUrl(Resources.SharedData.Urls.Home));
             }
             return View();
         }
@@ -97,7 +97,7 @@ namespace SafetyInc.Controllers
                     return Redirect(decodedReturnUrl);
                 }
 
-                return Redirect(Url.Kentico().PageUrl("/Home"));
+                return Redirect(Url.Kentico().PageUrl(Resources.SharedData.Urls.Home));
             }
 
             if (signInResult.IsNotAllowed)
@@ -119,7 +119,7 @@ namespace SafetyInc.Controllers
         public ActionResult Logout()
         {
             signInManager.SignOutAsync();
-            return Redirect(Url.Kentico().PageUrl("/Home"));
+            return Redirect(Url.Kentico().PageUrl(Resources.SharedData.Urls.Home));
         }
     }
 }

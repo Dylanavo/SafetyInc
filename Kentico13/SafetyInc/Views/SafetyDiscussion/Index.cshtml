@@ -13,22 +13,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedBy)
+                @Html.DisplayNameFor(model => model.ObserverFullName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Observer)
+                @Html.DisplayNameFor(model => model.ColleagueNames)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Location)
+                @Html.DisplayNameFor(model => model.LocationString)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Subject)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Outcomes)
             </th>
             <th></th>
         </tr>
@@ -37,27 +34,24 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.CreatedBy)
+                @Html.DisplayFor(modelItem => item.ObserverFullName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Observer)
+                @Html.DisplayFor(modelItem => item.ColleagueNames)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Location)
+                @Html.DisplayFor(modelItem => item.LocationString)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Subject)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Outcomes)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.SafetyDiscussionID }) |
-                @Html.ActionLink("Details", "Details", new { id=item.SafetyDiscussionID }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.SafetyDiscussionID })
+                @Html.ActionLink("Edit", "Edit", new { id = item.SafetyDiscussionID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.SafetyDiscussionID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.SafetyDiscussionID })
             </td>
         </tr>
 }

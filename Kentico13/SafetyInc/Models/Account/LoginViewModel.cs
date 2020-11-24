@@ -11,12 +11,10 @@ namespace SafetyInc.Models
         [MaxLength(100, ErrorMessage = "Maximum allowed length of the input text is {1}")]
         public string UserName { get; set; }
 
-
         [DataType(DataType.Password)]
         [DisplayName("Password")]
         [MaxLength(100, ErrorMessage = "Maximum allowed length of the input text is {1}")]
         public string Password { get; set; }
-
 
         [DisplayName("Stay signed in")]
         public bool StaySignedIn { get; set; }
