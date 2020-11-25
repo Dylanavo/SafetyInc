@@ -54,12 +54,20 @@ namespace CoreTutorial.ViewComponents
                 IsCurrentPage = item.NodeAliasPath.ToLower().Equals(Request.Path.Value)
             }).ToList();
 
-            //manually inject the manage page as well
+            //manually inject the manage page
             model.Add(new MenuItemViewModel()
             {
                 MenuItemText = "Manage",
                 MenuItemRelativeUrl = "~/SafetyDiscussion",
                 IsCurrentPage = Request.Path.Value.ToLower().Contains("safetydiscussion")
+            });
+
+            //manually inject admin link
+            model.Add(new MenuItemViewModel()
+            {
+                MenuItemText = "Admin",
+                MenuItemRelativeUrl = "~/admin",
+                IsCurrentPage = false
             });
 
             return View(model);

@@ -3,6 +3,7 @@ using CMS.Membership;
 using CMS.SiteProvider;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 
 namespace SafetyInc.Resources
 {
@@ -10,6 +11,12 @@ namespace SafetyInc.Resources
     {
         public static class Users
         {
+            public static string GetUserFullName(ClaimsPrincipal user)
+            {
+                var userInfo = UserInfo.Provider.Get(user.Identity.Name);
+                return userInfo != null ? userInfo.FullName : "";
+            }
+
             public static Dictionary<int, string> GetUsers()
             {
                 return CacheHelper.Cache(cs => LoadUsers(cs), new CacheSettings(30, "customdatasource|users"));
