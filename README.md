@@ -6,8 +6,10 @@
 - [Libraries and Tools](#libsandtools)
 - [Assumptions](#assumptions)
 - [Design](#design)
-- [alternatives](#alternatives)
-- [limitationsimprovements](#limitationsimprovements)
+- [Alternatives Considered](#alternatives)
+- [Limitations/Potential Improvements](#limitationsimprovements)
+- [How To](#howto)
+- [Appendix](#appendix)
 
 ## <a name="task"></a>The Task
 Our customer has requested a proof-of-concept to allow employees to record safety discussions they have had with their colleagues, through a responsive web application. They have identified desktop and tablets as the target platforms.
@@ -57,7 +59,7 @@ Developing the live site was also simplified as both the solutions make use of t
 
 The rest of the front end is implemented as a custom MVC application that leverages the providers mentioned above to perform the various CRUD operations on the Discussions. The UI is scaffolded from various Bootstrap components, with JavaScript libraries integrated for date time picking, rich text editing, and user mutliselection. The entire front-end requires authentication as I felt this was most appropriate given the scope of the tool.
 
-## <a name="alternatives"></a>Alternatives considered
+## <a name="alternatives"></a>Alternatives Considered
 - ASP.Net Core MVC web app
 - ASP.Net Core API drive Angular web app
 
@@ -71,3 +73,7 @@ I considered doing an ASP.Net core MVC standalone solution or an API drive Angul
 - LESS or SaSS stylesheets with a gulp compile/minify task, similar for JavaScript
 - Filtering, sorting, and paging on front-end listings
 - Possible Google maps integration for selecting locations
+
+## <a name="howto"></a>How To
+
+## <a name="appendix"></a>Appendix
