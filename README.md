@@ -77,3 +77,49 @@ I considered doing an ASP.Net core MVC standalone solution or an API drive Angul
 ## <a name="howto"></a>How To
 
 ## <a name="appendix"></a>Appendix
+administrator
+Password!23
+
+anduin.wrynn@stormwind.az.ek
+Anduin Wrynn
+ForTheAlliance
+
+magni.bronzebeard@ironforge.az.ek
+Magni Bronzebeard
+ForKhazModan
+
+tyrande.whisperwind@darnassus.az.kal
+Tyrande Whisperwind
+EluneGiveMeStrength
+
+thrall@orgrimmar.az.kal
+Thrall
+ForTheHorde
+
+baine.bloodhoof@thunderbluff.az.kal
+Baine Bloodhoof
+EarthmotherGuideUs
+
+sylvanas.windrunner@themaw.sl
+Sylvanas Windrunner
+LetNoneSurvive
+
+john.citizen@email.com
+John Citizen
+JohnCitizen
+
+jane.citizen@email.com
+Jane Citizen
+JaneCitizen
+
+hank.smith@email.com
+Hank Smith
+HankSmith
+
+kaitlyn.king@email.com
+Kaitlyn King
+KaitlynKing
+
+dylan.vanoss@email.com
+Dylan van Oss
+DylanVanOss
