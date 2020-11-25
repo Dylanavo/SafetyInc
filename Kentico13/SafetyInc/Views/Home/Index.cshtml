@@ -1,50 +1,33 @@
-﻿@model SafetyInc.Models.HomeIndexViewModel
+﻿@addTagHelper *, Kentico.Content.Web.Mvc
+
+@model SafetyInc.Models.HomeIndexViewModel
 
 @{
-    ViewData["Title"] = "Home";
+    ViewBag.Title = "Home";
 }
 
-<h1>Home</h1>
+@section styles
+{
+    @* Includes CSS necessary for page builder functionality *@
+    <page-builder-styles />
+}
 
-<div>
-    <h4>HomeIndexViewModel</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.BannerHeader)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.BannerHeader)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.BannerSubtext)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.BannerSubtext)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.BannerImage)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.BannerImage)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LoginHeader)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LoginHeader)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LoginBody)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LoginBody)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LoginButtonText)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LoginButtonText)
-        </dd>
-    </dl>
-</div>
+<main role="main">
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1>@Model.BannerHeader</h1>
+            <p class="lead text-muted">@Model.BannerSubtext</p>
+            <editable-area area-identifier="editableArea" />
+            <p>
+                <a class="btn btn-primary my-2" asp-action="Index" asp-controller="SafetyDiscussion">@Model.BannerManageText</a>
+                <a class="btn btn-secondary my-2" asp-action="Create" asp-controller="SafetyDiscussion">@Model.BannerNewDiscussionText</a>
+            </p>
+        </div>
+    </section>
+</main>
+
+@section scripts
+{
+    @* Includes scripts necessary for page builder functionality *@
+    <page-builder-scripts />
+}

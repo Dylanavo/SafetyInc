@@ -97,52 +97,18 @@ namespace CMS.DocumentEngine.Types.SI
 
 
 		/// <summary>
-		/// Banner image.
-		/// </summary>
-		[DatabaseField]
-		public Guid HomeBannerImage
-		{
-			get
-			{
-				return ValidationHelper.GetGuid(GetValue("HomeBannerImage"), Guid.Empty);
-			}
-			set
-			{
-				SetValue("HomeBannerImage", value);
-			}
-		}
-
-
-		/// <summary>
 		/// Login header.
 		/// </summary>
 		[DatabaseField]
-		public string HomeLoginHeader
+		public string HomeBannerManageText
 		{
 			get
 			{
-				return ValidationHelper.GetString(GetValue("HomeLoginHeader"), @"");
+				return ValidationHelper.GetString(GetValue("HomeBannerManageText"), @"");
 			}
 			set
 			{
-				SetValue("HomeLoginHeader", value);
-			}
-		}
-
-
-		/// <summary>
-		/// Login body.
-		/// </summary>
-		[DatabaseField]
-		public string HomeLoginBody
-		{
-			get
-			{
-				return ValidationHelper.GetString(GetValue("HomeLoginBody"), @"");
-			}
-			set
-			{
-				SetValue("HomeLoginBody", value);
+				SetValue("HomeBannerManageText", value);
 			}
 		}
 
@@ -151,15 +117,15 @@ namespace CMS.DocumentEngine.Types.SI
 		/// Login button text.
 		/// </summary>
 		[DatabaseField]
-		public string HomeLoginButtonText
+		public string HomeBannerNewDiscussionText
 		{
 			get
 			{
-				return ValidationHelper.GetString(GetValue("HomeLoginButtonText"), @"");
+				return ValidationHelper.GetString(GetValue("HomeBannerNewDiscussionText"), @"");
 			}
 			set
 			{
-				SetValue("HomeLoginButtonText", value);
+				SetValue("HomeBannerNewDiscussionText", value);
 			}
 		}
 
@@ -248,45 +214,17 @@ namespace CMS.DocumentEngine.Types.SI
 
 
 			/// <summary>
-			/// Banner image.
-			/// </summary>
-			public DocumentAttachment BannerImage
-			{
-				get
-				{
-					return mInstance.GetFieldDocumentAttachment("HomeBannerImage");
-				}
-			}
-
-
-			/// <summary>
 			/// Login header.
 			/// </summary>
-			public string LoginHeader
+			public string BannerManageText
 			{
 				get
 				{
-					return mInstance.HomeLoginHeader;
+					return mInstance.HomeBannerManageText;
 				}
 				set
 				{
-					mInstance.HomeLoginHeader = value;
-				}
-			}
-
-
-			/// <summary>
-			/// Login body.
-			/// </summary>
-			public string LoginBody
-			{
-				get
-				{
-					return mInstance.HomeLoginBody;
-				}
-				set
-				{
-					mInstance.HomeLoginBody = value;
+					mInstance.HomeBannerManageText = value;
 				}
 			}
 
@@ -294,15 +232,15 @@ namespace CMS.DocumentEngine.Types.SI
 			/// <summary>
 			/// Login button text.
 			/// </summary>
-			public string LoginButtonText
+			public string BannerNewDiscussionText
 			{
 				get
 				{
-					return mInstance.HomeLoginButtonText;
+					return mInstance.HomeBannerNewDiscussionText;
 				}
 				set
 				{
-					mInstance.HomeLoginButtonText = value;
+					mInstance.HomeBannerNewDiscussionText = value;
 				}
 			}
 		}

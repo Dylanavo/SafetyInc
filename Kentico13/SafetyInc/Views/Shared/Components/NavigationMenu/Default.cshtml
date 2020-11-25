@@ -1,0 +1,45 @@
+﻿@using SafetyInc.Models;
+
+@model IEnumerable<MenuItemViewModel>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="@Url.Kentico().PageUrl(SafetyInc.Resources.SharedResources.Urls.Home)">Safety Inc</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                @foreach (MenuItemViewModel menuItem in Model)
+                {
+                    @if (menuItem.IsCurrentPage)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link active" href="@menuItem.MenuItemRelativeUrl">@menuItem.MenuItemText <span class="sr-only">(current)</span></a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@menuItem.MenuItemRelativeUrl">@menuItem.MenuItemText</a>
+                        </li>
+                    }
+                }
+            </ul>
+            <ul class="navbar-nav justify-content-end">
+                <li class="nav-item">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form method="post" asp-action="Logout" asp-controller="Account">
+                            <input type="submit" value="Sign out" class="sign-out-button btn btn-sm btn-primary" />
+                        </form>
+                    }
+                    else
+                    {
+                        <a class="nav-link" asp-action="Login" asp-controller="Account">Sign in</a>
+                    }
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

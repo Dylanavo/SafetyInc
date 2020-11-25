@@ -4,65 +4,67 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>SafetyDiscussionViewModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Observer" class="control-label"></label>
-                <select asp-for="Observer" class="form-control">
-                    @foreach (var user in SafetyInc.Resources.SharedData.Users.GetUsers())
-                    {
-                        <option value="@user.Key">@user.Value</option>
-                    }
-                </select>
+<div class="container">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Edit Safety Discussion</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group">
+                <a class="btn btn-sm btn-outline-secondary" asp-action="Index">Back to List</a>
             </div>
-            <div class="form-group">
-                <label asp-for="Colleagues" class="control-label"></label>
-                <select asp-for="Colleagues" class="form-control" multiple>
-                    @foreach (var user in SafetyInc.Resources.SharedData.Users.GetUsers())
-                    {
-                        <option value="@user.Key">@user.Value</option>
-                    }
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" id="date-time-picker" />
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Location" class="control-label"></label>
-                <select asp-for="Location" class="form-control">
-                    @foreach (var location in SafetyInc.Resources.SharedData.Locations.GetLocations())
-                    {
-                        <option value="@location.Key">@location.Value</option>
-                    }
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Subject" class="control-label"></label>
-                <input asp-for="Subject" class="form-control" />
-                <span asp-validation-for="Subject" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Outcomes" class="control-label"></label>
-                <textarea asp-for="Outcomes" class="form-control" id="rich-text-editor"></textarea>
-                <span asp-validation-for="Outcomes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+    <div class="row">
+        <div class="col-xs-12 col-lg-8 col-xl-6 offset-lg-2 offset-xl-3">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Observer" class="control-label"></label>
+                    <select asp-for="Observer" class="form-control">
+                        @foreach (var user in SafetyInc.Resources.SharedResources.Users.GetUsers())
+                        {
+                            <option value="@user.Key">@user.Value</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Colleagues" class="control-label"></label>
+                    <select asp-for="Colleagues" class="form-control" multiple>
+                        @foreach (var user in SafetyInc.Resources.SharedResources.Users.GetUsers())
+                        {
+                            <option value="@user.Key">@user.Value</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Date" class="control-label"></label>
+                    <input asp-for="Date" class="form-control" id="date-time-picker" />
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Location" class="control-label"></label>
+                    <select asp-for="Location" class="form-control">
+                        @foreach (var location in SafetyInc.Resources.SharedResources.Locations.GetLocations())
+                        {
+                            <option value="@location.Key">@location.Value</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Subject" class="control-label"></label>
+                    <input asp-for="Subject" class="form-control" />
+                    <span asp-validation-for="Subject" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Outcomes" class="control-label"></label>
+                    <textarea asp-for="Outcomes" class="form-control" id="rich-text-editor"></textarea>
+                    <span asp-validation-for="Outcomes" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 @section Scripts {

@@ -13,13 +13,9 @@ namespace SafetyInc.Models
 
         public string BannerSubtext { get; set; }
 
-        public IPageAttachmentUrl BannerImage { get; set; }
+        public string BannerManageText { get; set; }
 
-        public string LoginHeader { get; set; }
-
-        public string LoginBody { get; set; }
-
-        public string LoginButtonText { get; set; }
+        public string BannerNewDiscussionText { get; set; }
 
         public static HomeIndexViewModel GetViewModel(Home home, IPageUrlRetriever pageUrlRetriever, IPageAttachmentUrlRetriever attachmentUrlRetriever)
         {
@@ -33,10 +29,8 @@ namespace SafetyInc.Models
                 {
                     BannerHeader = home.Fields.BannerHeader,
                     BannerSubtext = home.Fields.BannerSubtext,
-                    BannerImage = home.Fields.BannerImage == null ? null : attachmentUrlRetriever.Retrieve(home.Fields.BannerImage),
-                    LoginHeader = home.Fields.LoginHeader,
-                    LoginBody = home.Fields.LoginBody,
-                    LoginButtonText = home.Fields.LoginButtonText
+                    BannerManageText = home.Fields.BannerManageText,
+                    BannerNewDiscussionText = home.Fields.BannerNewDiscussionText
                 };
             }
         }

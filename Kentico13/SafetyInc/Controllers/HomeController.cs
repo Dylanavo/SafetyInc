@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CMS.DocumentEngine.Types.SI;
+﻿using CMS.DocumentEngine.Types.SI;
 using Kentico.Content.Web.Mvc;
 using Microsoft.AspNetCore.Mvc;
 using SafetyInc.Models;
 using SafetyInc.Controllers;
 using Kentico.Content.Web.Mvc.Routing;
+using Microsoft.AspNetCore.Authorization;
 
 [assembly: RegisterPageRoute(Home.CLASS_NAME, typeof(HomeController))]
 
 namespace SafetyInc.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IPageDataContextRetriever pageDataContextRetriever;

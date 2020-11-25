@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Security.Claims;
 using SafetyInc.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using CMS.Membership;

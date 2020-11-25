@@ -6,29 +6,21 @@
     <meta charset="utf-8" />
     @Html.Kentico().PageDescription()
     @Html.Kentico().PageKeywords()
-    @Html.Kentico().PageTitle(ViewBag.Title as string)
+    <title>Safety Inc - @ViewBag.Title</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/css/site.css" />
+
+    @RenderSection("styles", required: false)
 </head>
 <body>
-    <div>
-        @if (User.Identity.IsAuthenticated)
-        {
-            <a asp-controller="SafetyDiscussion" asp-action="Index">@HtmlLocalizer["Manage discussions"]</a>
-            <form method="post" asp-controller="Account" asp-action="Logout">
-                <input type="submit" value="@HtmlLocalizer["Sign out"]" class="sign-out-button" />
-            </form>
-        }
-        else
-        {
-            <a asp-controller="Account" asp-action="Login">@HtmlLocalizer["Login"]</a>
-        }
-    </div>
-    <div>
-        @RenderBody()
-    </div>
+    <header>
+        @* Renders the view component with the navigation menu, including the <nav> element *@
+        @await Component.InvokeAsync("NavigationMenu")
+    </header>
+    @RenderBody()
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>

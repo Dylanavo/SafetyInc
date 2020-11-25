@@ -3,12 +3,8 @@ using System.Net;
 using System.Threading.Tasks;
 
 using CMS.Activities.Loggers;
-using CMS.Base;
-using CMS.Base.UploadExtensions;
 using CMS.ContactManagement;
 using CMS.Core;
-using CMS.Helpers;
-using CMS.Membership;
 
 using SafetyInc.Models;
 
@@ -17,10 +13,8 @@ using Kentico.Membership;
 using Kentico.Web.Mvc;
 
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
@@ -29,25 +23,21 @@ namespace SafetyInc.Controllers
     public class AccountController : Controller
     {
         private readonly IMembershipActivityLogger membershipActivitiesLogger;
-        private readonly IStringLocalizer<SharedResources> localizer;
         private readonly IEventLogService eventLogService;
-        private readonly ApplicationUserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
-        private readonly ISiteService siteService;
 
-        public AccountController(ApplicationUserManager<ApplicationUser> userManager,
-                                 SignInManager<ApplicationUser> signInManager,
-                                 ISiteService siteService,
+        public AccountController(SignInManager<ApplicationUser> signInManager,
                                  IMembershipActivityLogger membershipActivitiesLogger,
-                                 IStringLocalizer<SharedResources> localizer,
                                  IEventLogService eventLogService)
         {
-            this.userManager = userManager;
             this.signInManager = signInManager;
-            this.siteService = siteService;
             this.membershipActivitiesLogger = membershipActivitiesLogger;
-            this.localizer = localizer;
             this.eventLogService = eventLogService;
+        }
+
+        public ActionResult Index()
+        {
+            return RedirectToAction(nameof(Login));
         }
 
         // GET: Account/Login
@@ -57,8 +47,9 @@ namespace SafetyInc.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                //user is authenticated, no need to show the auth
-                return Redirect(Url.Kentico().PageUrl(Resources.SharedData.Urls.Home));
+                //user is authenticated, no need to show the auth,
+                //send them straight through to manage their discussions
+                return RedirectToAction("Index", "SafetyDiscussion");
             }
             return View();
         }
@@ -97,16 +88,16 @@ namespace SafetyInc.Controllers
                     return Redirect(decodedReturnUrl);
                 }
 
-                return Redirect(Url.Kentico().PageUrl(Resources.SharedData.Urls.Home));
+                return Redirect(Url.Kentico().PageUrl(Resources.SharedResources.Urls.Home));
             }
 
             if (signInResult.IsNotAllowed)
             {
-                ModelState.AddModelError(string.Empty, localizer["Your account requires activation before logging in."]);
+                ModelState.AddModelError(string.Empty, "Your account requires activation before logging in.");
             }
             else
             {
-                ModelState.AddModelError(string.Empty, localizer["Your sign-in attempt was not successful. Please try again."].ToString());
+                ModelState.AddModelError(string.Empty, "Your sign-in attempt was not successful. Please try again.");
             }
 
             return View(model);
@@ -119,7 +110,7 @@ namespace SafetyInc.Controllers
         public ActionResult Logout()
         {
             signInManager.SignOutAsync();
-            return Redirect(Url.Kentico().PageUrl(Resources.SharedData.Urls.Home));
+            return Redirect(Url.Kentico().PageUrl(Resources.SharedResources.Urls.Home));
         }
     }
 }
